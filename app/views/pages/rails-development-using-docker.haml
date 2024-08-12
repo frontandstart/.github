@@ -1,5 +1,5 @@
 .container
-  %h2.text-center 🐳 Ruby on Rails development using Docker
+  %h2.text-center 🚀 Ruby on Rails development using Docker 🐳
   %p.text-center
     %s Shut up
     and just show me the code
@@ -81,7 +81,7 @@
             for builiding production image at CI and deploying:
             %i line 34 to 42
   .d-flex
-    .dockerfile-description
+    .file-desc
       %ul
         %h5 Development stage
         %li
@@ -145,7 +145,7 @@
         %li
           %code.inline RUN bundle exec rails assets:precompile
           Compile assets ino public folder
-    .dockerfile-content
+    .file-content
       %script{src: "https://gist.github.com/r3cha/994e108d0b52935797b5132ca452cb5f.js"}
 
   %h3.text-center
@@ -181,8 +181,8 @@
     Read more detailed at official docker compose file
     = link_to "specification", "https://docs.docker.com/compose/compose-file/", target: "_blank"
 
-  .d-flex
-    .docker-compose-desc
+  .d-flex.compose
+    .file-desc
       %ul
         %h4 Services
         %li
@@ -411,26 +411,18 @@
           docker volume inspect initapp-rails_data
         to see volume details and exact location at your machine.
 
-    .docker-compose-content
+    .file-content
       %script{src: "https://gist.github.com/r3cha/6c4e8c999b65833820bb5b69b1f763e2.js"}
 
   %h3.text-center
-    How to up everuthing?
-  %p.text-center
-    Build development image:
-    %code.inline
-      docker compose build app
-    %br
-    Run application:
-    %code.inline
-      docker compose up
-    
-  %p
-    Here is what happening:
-    %ul
-      %li
-        %code
+    How to run everuthing?
+  %ol
+    %li
+      %h5
+        Build development image:
+        %code.inline
           docker compose build app
+      %p
         Docker compose will parse
         %b build
         secton of
@@ -438,7 +430,8 @@
         service and generating command like this: 
         %code.inline
           docker build --tag initapp-rails --target development .
-        where 
+        %br
+        Where 
         %b development
         is target,
         %b dot
@@ -448,110 +441,110 @@
         %b name
         key.
 
-      %li
-        %p
-          %code
-            docker compose up
-          Docker compose looking locally for images tagged same as 
-          %b image:
-          section of compose file. Once failed it will try pull it from 
-          = link_to "docker hub", "https://hub.docker.com"
-          container registry. For our case it will pull
-          = link_to "https://hub.docker.com/_/postgres/tags?page=&page_size=&ordering=&name=16.4-bullseye" do
-            %b postgres:16.4-bullseye
-          and
-          = link_to "https://hub.docker.com/_/redis/tags?page=&page_size=&ordering=&name=7.4.0" do     
-            %b redis:7.4.0
-          images and use already builded 
-          %b initapp-rails
-          image run all containers for all services, mounting volumes, expose ports from containers into you computer.
+    %li
+      %h5
+        Run application:
+        %code.inline
+          docker compose up
+      %p
+        Docker compose looking locally for images tagged same as 
+        %b image:
+        section of compose file. Once failed it will try pull it from 
+        = link_to "docker hub", "https://hub.docker.com"
+        container registry. For our case it will pull
+        = link_to "https://hub.docker.com/_/postgres/tags?page=&page_size=&ordering=&name=16.4-bullseye" do
+          %b postgres:16.4-bullseye
+        and
+        = link_to "https://hub.docker.com/_/redis/tags?page=&page_size=&ordering=&name=7.4.0" do     
+          %b redis:7.4.0
+        images and use already builded 
+        %b initapp-rails
+        image run all containers for all services:
+        :plain
+          <b>app</b>, <b>sidekiq</b>, <b>redis</b> and <b>postgres</b>
+        mounting volumes, expose ports from containers into you computer.
+      
+      %p
+        Terminal will be attached to the containers STDOUT and logs will be printed,
+        by clicking CTRL+C command you will stop containers.
+        %br
+        You can run
+        %code.inline docker compose up -d
+        in deattached (background) mode then run
+        %code.inline docker compose -f logs
+        see logs of all services or passing service name to look logs for specific container
+        %code.inline docker compose  -f logs app
 
-  %p.note
-    Older version of docker came with 
-    %b docker-compose
-    utility written on python that nowdays rewrited on golang and moved to
-    %b docker compose
-    subcommand of 
-    %b docker
-    cli. 
-    %b Docker compose
-    read configuration from
-    %i compose.yaml
-    file and run all containers described at
-    %b services
-    section. You may use another file by passing
-    %code.inline
-      \-f
-    option to
-    %b docker compose
-    command like: 
-    %code.inline
-      docker compose -f docker-compose.prod.yml up
+      %p
+        Also 
+        %b run
+        specific container and command by:
+        %code.inline docker compose run app bash
+        this will run new app container with bash session in it.
+        %br
+        Or you may run specific rails command and exit: 
+        %code.inline docker compose run app rails routes
 
-  %p.warn
-    Basically you can pull and build images using just 
-    %code.inline docker compose up
+      %p
+        Once you up containers from another terminal window you able to 
+        %b exec
+        (enter) into alredy running service like with
+        %code.inline docker compose exec app bash
+        replace 
+        %b app
+        wih
+        :plain
+          <b>sidekiq</b>, <b>redis</b> or <b>postgres</b>
+        to choise container that you want to enter.
+      %p
+        Read more at docker compose cli
+        = link_to "docs", "https://docs.docker.com/compose/compose-application-model/", target: "_blank"
 
-    but we recomed build yoor local images first then up, becouse someone may occupy docker hub username 
-    like
-    %b initapp-rails:latest
-    
-    or whatever you will be using locally and upload own image, that you will pull and run using just
-    %code.inline docker compose up
-    command initially.
+      %p.note
+        Older version of docker came with 
+        %b docker-compose
+        utility written on python that nowdays rewrited on golang and moved to
+        %b docker compose
+        subcommand of 
+        %b docker
+        cli. 
+        %b Docker compose
+        read configuration from
+        %i compose.yaml
+        file and run all containers described at
+        %b services
+        section. You may use another file by passing
+        %code.inline
+          \-f
+        option to
+        %b docker compose
+        command like: 
+        %code.inline
+          docker compose -f docker-compose.prod.yml up
 
-  %p.note
-    Our
-    %b services
-    section contains four nested keys 
-    :plain
-      <b>app</b>, <b>sidekiq</b>, <b>redis</b> and <b>postgres</b>
-    that turn into containers when we run
-    %code.inline
-      docker compose up
-  %p
-    With this command you run your containers and terminal will be attached to the containers STDOUT and logs will be printed,
-    by clicking CTRL+C command you will stop containers.
-    %br
-    You can run
-    %code.inline docker compose up -d
-    in deattached (background) mode, then you will be able to see logs of all services with
-    %code.inline docker compose logs
-    or passing service name to stream logs for specific container
-    %code.inline docker compose logs app
+      %p.warn
+        Basically you can pull and build images using just 
+        %code.inline docker compose up
 
-  %p
-    Whatever you have running container or not you able to 
-    %b run
-    specific container and command like:
-    %code.inline docker compose run app bash
-    this will run app container with bash session in it.
-    %br
-    Or you may run specific rails command and exit: 
-    %code.inline docker compose run app rails routes
+        but we recomed
+        %b build
+        your local images first then
+        %b up
+        , because someone may occupy docker hub username 
+        like
+        %b initapp-rails
+        
+        or whatever you use and upload own image that you will pull and run using when first time run
+        %code.inline docker compose up
+        command without building your own.
 
-  %p
-    Once you up containers from another terminal window you able to 
-    %b exec
-    (enter) into any container with
-    %code.inline docker compose exec app
-    replace 
-    %b app
-    wih
-    :plain
-      <b>sidekiq</b>, <b>redis</b> or <b>postgres</b>
-    to choise container that you want to enter.
-  %p.note
-    We use  
-    = link_to "foreman", "https://github.com/ddollar/foreman", target: "_blank"
-    gem inside app container for running rails application, js, css compilation processes.
-    Alternatively you may remove foreman and use separate containers for css and js.
-    Checkout this short article
-    = link_to "foreman or containers", page_path(path: "separate-containers-vs-foreman-for-compiling-assets-into-development"), target: "_blank"
-    if you want to use another approach.
+      %p.note
+        We use  
+        = link_to "foreman", "https://github.com/ddollar/foreman", target: "_blank"
+        gem inside app container for running rails application, js, css compilation processes.
+        Alternatively you may remove foreman and use separate containers for css and js.
+        Checkout this short article
+        = link_to "foreman or containers", page_path(path: "separate-containers-vs-foreman-for-compiling-assets-into-development"), target: "_blank"
+        if you want to use another approach.
 
-  %p
-    Read more at docker compose cli
-    = link_to "docs", "https://docs.docker.com/compose/compose-application-model/", target: "_blank"
 
-  %h3 
