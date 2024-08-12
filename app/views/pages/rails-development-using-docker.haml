@@ -363,8 +363,20 @@
               %p
                 %strong command
                 %br
-                When asd
-
+                Shell script
+                %code.inline
+                  bin/dev-start.sh
+                containing:
+                %code
+                  bundle check || bundle install
+                  yarn install
+                  bundle exec rails db:create db:migrate
+                  foreman start -f Procfile.dev
+                that running inside app container when docker compose start.
+                It ensure that ruby gems and node_modules installed, create database at first run and apply rails migrations,
+                run processes listed at
+                %i Procfile.dev
+                like: puma, css and js compilation.
 
 
         %li
@@ -384,7 +396,7 @@
 
       %h4 Volumes
       %p
-        Volumes are used to persist data and share data between services.
+        Volumes are used to persist data between containers restarts.
         Once you define it docker will create it following 
         %code.inline
           ${name_section_or_root_folder_name}_${volume_name}
@@ -398,65 +410,61 @@
         %code.inline
           docker volume inspect initapp-rails_data
         to see volume details and exact location at your machine.
-        %ul
-          %li
-            %strong postgres:
-            Stores database files.
-          %li
-            %strong redis:
-            Stores redis files.
-          %li
-            %strong bundle:
-            Caches Ruby gems.
-          %li
-            %strong node_modules:
-            Caches Node.js modules.
-          %li
-            %strong data:
-            General persistent data storage.
-          %li
-            %strong cache:
-            Store rails cache.
 
     .docker-compose-content
       %script{src: "https://gist.github.com/r3cha/6c4e8c999b65833820bb5b69b1f763e2.js"}
 
   %h3.text-center
     How to up everuthing?
-    %br
-    Just run
-    %code.inline
-      docker compose up
-
-  %p
-    Here is what happaning next
-    %ul
-      %li
-        Docker start pulling all images tags listed at
-        %code.inline
-          image: 
-        key from
-        = link_to "docker hub", "https://hub.docker.com"
-        container registry. For our case it will find
-        = link_to "https://hub.docker.com/_/postgres/tags?page=&page_size=&ordering=&name=16.4-bullseye" do
-          %b postgres:16.4-bullseye
-        and
-        = link_to "https://hub.docker.com/_/redis/tags?page=&page_size=&ordering=&name=7.4.0" do     
-          %b redis:7.4.0
-        images. But failed pulling 
-        %b initapp-rails:latest
-        by default docker :latest tag for untagged images
-
-  %p
-    Now you can build your development image using docker:
-    %code.inline
-      docker build -t initapp-rails --target development .
-    or docker compose
+  %p.text-center
+    Build development image:
     %code.inline
       docker compose build app
-    that reuiqre to have compose.yaml which we overview below.
+    %br
+    Run application:
+    %code.inline
+      docker compose up
+    
+  %p
+    Here is what happening:
+    %ul
+      %li
+        %code
+          docker compose build app
+        Docker compose will parse
+        %b build
+        secton of
+        %b app
+        service and generating command like this: 
+        %code.inline
+          docker build --tag initapp-rails --target development .
+        where 
+        %b development
+        is target,
+        %b dot
+        is stage and 
+        %b initapp-rails
+        is value of
+        %b name
+        key.
 
-
+      %li
+        %p
+          %code
+            docker compose up
+          Docker compose looking locally for images tagged same as 
+          %b image:
+          section of compose file. Once failed it will try pull it from 
+          = link_to "docker hub", "https://hub.docker.com"
+          container registry. For our case it will pull
+          = link_to "https://hub.docker.com/_/postgres/tags?page=&page_size=&ordering=&name=16.4-bullseye" do
+            %b postgres:16.4-bullseye
+          and
+          = link_to "https://hub.docker.com/_/redis/tags?page=&page_size=&ordering=&name=7.4.0" do     
+            %b redis:7.4.0
+          images and use already builded 
+          %b initapp-rails
+          image run all containers for all services, mounting volumes, expose ports from containers into you computer.
 
   %p.note
     Older version of docker came with 
@@ -479,9 +487,19 @@
     command like: 
     %code.inline
       docker compose -f docker-compose.prod.yml up
-  %p
-    Read more at docker compose cli
-    = link_to "docs", "https://docs.docker.com/compose/compose-application-model/", target: "_blank"
+
+  %p.warn
+    Basically you can pull and build images using just 
+    %code.inline docker compose up
+
+    but we recomed build yoor local images first then up, becouse someone may occupy docker hub username 
+    like
+    %b initapp-rails:latest
+    
+    or whatever you will be using locally and upload own image, that you will pull and run using just
+    %code.inline docker compose up
+    command initially.
+
   %p.note
     Our
     %b services
@@ -532,10 +550,8 @@
     = link_to "foreman or containers", page_path(path: "separate-containers-vs-foreman-for-compiling-assets-into-development"), target: "_blank"
     if you want to use another approach.
 
-  %h3 Conclusion
-
   %p
-    Using Docker Compose simplifies the management of multi-container applications by allowing 
-    you to define and orchestrate all necessary services and configurations in a single file. 
-    This setup is particularly useful for Rails applications that require a web server, asset 
-    compilation, and a database.
+    Read more at docker compose cli
+    = link_to "docs", "https://docs.docker.com/compose/compose-application-model/", target: "_blank"
+
+  %h3 
