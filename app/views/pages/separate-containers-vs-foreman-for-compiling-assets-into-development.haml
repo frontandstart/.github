@@ -1,0 +1,76 @@
+.container
+  %h3.text-center
+    Using
+    %i Procfile
+    with
+    = link_to "foreman", "https://github.com/ddollar/foreman"
+    gem to run webserver with assets compiling.
+
+  %br
+  %p
+    Long story short: we using 
+    = link_to "cssbundling-rails", "https://github.com/rails/cssbundling-rails", target: "_blank"
+    and
+    = link_to "jsbundling-rails", "https://github.com/rails/jsbundling-rails", target: "_blank"
+    gems in faivour of older way
+    = link_to "webpacker", "https://github.com/rails/webpacker", target: "_blank"
+    \ for assets compilation.
+    %br
+    We need two more processes one for javascript and css compilation that watching for the file changes and recompile assets on development.
+
+  %p
+    This we may handle in two ways.
+    %ol 
+      %li 
+        %h4 Run two more docker containers
+        %script{src: "https://gist.github.com/r3cha/d3f946d55b4a955abc72eb7198229919.js"}
+      %li 
+        %h4
+          Run multiple processes at app container using foreman gem.
+          See 
+          = link_to "PR", "https://github.com/frontandstart/initapp-rails/pull/1/files", target: "_blank"
+
+          
+        %ul
+          %li
+            %p
+              Install foreman gem into docker development image
+              %code
+                :plain
+                  RUN gem install bundler \
+                                  foreman
+            %p
+              For security reason why we dont include foreman into 
+              %i Gemfile
+              here is good detailed 
+              = link_to "explation", "https://github.com/ddollar/foreman/wiki/Don't-Bundle-Foreman", target: "_blank"
+              why.              
+          %li 
+            %p
+              Create 
+              %i Procfile.dev
+              that foreman we will be using for runing our processes
+              %code
+                web: bundle exec puma -C config/puma.rb
+                css: yarn build:css --watch
+                js: yarn build --watch
+          %li
+            %p
+              Modify last line of
+              %i bin/dev-start.sh
+              with foreman command
+              %code
+                :plain
+                  #!/usr/bin/env sh
+
+                  set +x pipefail
+
+                  bundle check || bundle install
+                  bundle exec rails db:create db:migrate
+                  foreman start -f Procfile.dev
+
+    %h4 Conclusion 
+    %p
+      In first way you will use your CPU, RAM resources to running containers, with second solution you have one more small depenency at
+      %i< Dockefle
+      \.

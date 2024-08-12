@@ -1,7 +1,98 @@
 @import 'bootstrap/scss/bootstrap.scss';
+@import 'font';
 
-.greeting {
+$black-color: #202020;
+$logo-pading: 10px;
+.navigation {
+  justify-content: center;
+  padding: 25px 0;
+}
+.logo {
+  display: flex;
+  .icon {
+    display: flex;
+    border: 1px solid $black-color;
+    border-radius: 2px;
+    .white, .black {
+      padding: 0.3em 0.8em;
+      font-size: 1.2em;
+      display: inline-block;
+      overflow: hidden;
+      text-align: center;
+    }
+    .and {
+      position: absolute;
+      font-size: 1.1em;
+      margin-top: -1px;
+    }
+    .white {
+      background: white;
+    }
+    .and-black {
+      color: $black-color;
+      margin-left: 6px;
+    }
+    .and-white {
+      color: white;
+      margin-left: -22px;
+    }
+    .black {
+      background: $black-color;
+      color: white;
+    }
+  }
+  .text{
+    display: inline-block;
+    align-items: center;
+    margin: 9px 20px 5px;
+    line-height: 1;
+    font-size: 22px;
+  }
+} 
+
+.github-icon svg{
+  width: 20px;
+  margin-top: -4px;
+}
+
+code {
+  display: block;
+  white-space: pre-wrap   
+}
+
+pre {
+  color: var(--bs-code-color);
+}
+
+.inline {
+  display: inline-block;
+}
+
+.d-flex {
+  gap: 20px;
+}
+
+blockquote {
+  // font-family: 'Georgia', serif; /* Choose a serif font for a classic look */
+  font-size: 1rem;
+  line-height: 1.4; 
   color: #333;
-  width: 420px;
-  margin: 40px auto;
+  margin: 10px 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-left: 5px solid #007acc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+blockquote p {
+  margin: 0; /* Reset margin for paragraphs inside */
+}
+
+cite {
+  display: block; /* Make it a block element */
+  text-align: right; /* Align text to the right */
+  color: #555; /* A darker grey for the citation */
+  font-style: italic; /* Italicize the citation */
+  margin-top: 10px; /* Add some space above the citation */
 }

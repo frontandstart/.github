@@ -1,13 +1,42 @@
-.greeting
-  %h2 Hello, this is demo Rails app
 
-  %ul
-    %li
-      = link_to "Admin", rails_admin_path
-      panel (email: mail@example.com / password: password)
-    %li
-      Devise authentication
-    %li
-      Bootstrap 5
-    %li
-      Docker
+.container
+  .question
+    %h2 Who we are?
+    .answer
+      %p
+        We are a team of software developers and engineers each with over a decade of experience in the tech industry.
+        %br
+        Our expertise spans desktop, web, mobile and embedded system development. With a foundation built on collaboration, innovation, and technical excellence, we are dedicated to delivering high-quality software solutions that drive success and growth for our clients.
+  .question
+    %h2 What we do?
+    .answer
+      %p
+        Specializes in crafting custom software solutions tailored to meet the unique needs of businesses across various industries. We provide a comprehensive range of development services, including:
+      %ul
+        %li Mobile App Development: Creating seamless, user-friendly mobile applications for both iOS and Android platforms, designed to engage users and enhance your business reach.
+        %li Embedded Systems Development: Developing reliable and efficient embedded systems that power the technology behind today's smart devices.
+        %li Web Development: Building scalable and robust web applications using the latest technologies and frameworks to ensure a smooth user experience and efficient performance.
+        %li DevOps and Cloud Solutions: Offering DevOps services to streamline your operations, including infrastructure automation, continuous integration and deployment, and cloud solutions for scalability and flexibility.
+  .question
+    %h2 How we work?
+    %p
+    .answer
+      %p
+        Open and transparent communication as the cornerstone of our development process. We believe that building strong relationships with our clients is essential to delivering successful projects.
+        Our mission is to partner with you to transform your ideas into reality through innovative technology solutions. We leverages a diverse set of technologies and tools to deliver great software:
+      %ul
+        %li Languages and Frameworks: We are proficient in Ruby on Rails, JavaScript (React, Angular, Vue.js, Hotwired), Golang, Rust, Dart, Flutter and more, allowing us to build high-performance applications tailored to your needs.
+        %li DevOps Tools: Utilizing Docker, Kubernetes, Terraform, CI tools like Gitlab CI, Buildkite and GitHub Actions to ensure efficient development workflows, reliable deployment processes, and robust infrastructure management.
+        %li Cloud Platforms: We work with leading cloud providers like AWS, Google Cloud Platform, Digtalocean, Azure and Heroku to provide scalable and secure hosting solutions.
+        %li Database Management: Our expertise in PostgreSQL, MySQL, and MongoDB ensures your data is handled efficiently and securely.
+
+.container
+  .blog-section
+    %h3 Articles
+    %p
+      Lets break down a software development process into main parts like: development, deployment, and maintenance.
+      In articles below we will try cover all main concepts and best practices that we use in each part.
+    %ul
+      %li
+        -# = link_to "Brief history of how we deployed applications", '#'
+        = link_to "Ruby on Rails development environment using Docker 🐳", page_path(path: 'rails-development-using-docker')
