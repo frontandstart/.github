@@ -6,9 +6,19 @@ $logo-pading: 10px;
 .navigation {
   justify-content: center;
   padding: 25px 0;
+  gap: 5px !important;
+  .text, nav a {
+    margin: 10px 10px 5px;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1;
+    color: $black-color;
+  }
 }
 .logo {
+  text-decoration: none;
   display: flex;
+  color: var(--bs-body-color);
   .icon {
     display: flex;
     border: 1px solid $black-color;
@@ -42,11 +52,8 @@ $logo-pading: 10px;
     }
   }
   .text{
-    display: inline-block;
     align-items: center;
-    margin: 9px 20px 5px;
     line-height: 1;
-    font-size: 22px;
   }
 } 
 
@@ -82,10 +89,9 @@ blockquote {
   border-left: 5px solid #007acc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-blockquote p {
-  margin: 0;
+  p {
+    margin: 0;
+  }
 }
 
 cite {
@@ -95,7 +101,6 @@ cite {
   font-style: italic;
   margin-top: 10px;
 }
-
 
 code, pre {
   position: relative;
@@ -122,7 +127,7 @@ code, pre {
 
 .warn {
   background-color: #ffe5e5;
-  border-left: 4px solid #ff0000;
+  border-left: 2px solid #ff0000;
   padding: 10px 15px;
   margin: 10px 0 10px;  
   border-radius: 4px;
@@ -140,5 +145,59 @@ code, pre {
   }
   .file-content {
     width: 30%;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.wip {
+  font-style: italic;
+  color: #ff8c00;
+  cursor: not-allowed;
+}
+
+.wip:before {
+  content: "🚧 wip: ";
+  font-weight: bold;
+  color: #b66400;
+}
+
+.articles-list {
+  padding: 20px 200px;
+}
+
+.author {
+  margin: 20px 0;
+}
+.avatar {
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.article-bottom {
+  margin: 30px 0 10px;
+}
+
+footer {
+  background-color: $black-color;
+  color: #fff;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+  bottom: 0;
+  width: 100%;
+  a {
+    color: white;
   }
 }

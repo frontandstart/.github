@@ -1,5 +1,8 @@
 .container
   %h2.text-center 🚀 Ruby on Rails development using Docker 🐳
+
+  = render 'shared/r3cha'
+
   %p.text-center
     %s Shut up
     and just show me the code
@@ -177,9 +180,6 @@
       %li
         %b configs
         \- list of configs that will be used by services
-  %p
-    Read more detailed at official docker compose file
-    = link_to "specification", "https://docs.docker.com/compose/compose-file/", target: "_blank"
 
   .d-flex.compose
     .file-desc
@@ -520,7 +520,7 @@
         %b docker compose
         command like: 
         %code.inline
-          docker compose -f docker-compose.prod.yml up
+          docker compose -f compose.prod.yml up
 
       %p.warn
         Basically you can pull and build images using just 
@@ -534,9 +534,9 @@
         like
         %b initapp-rails
         
-        or whatever you use and upload own image that you will pull and run using when first time run
+        or whatever you use and upload own image that you will pull and run when first time using
         %code.inline docker compose up
-        command without building your own.
+        command without building your own local image.
 
       %p.note
         We use  
@@ -548,3 +548,8 @@
         if you want to use another approach.
 
 
+      %p
+        Read more detailed at official docker compose file
+        = link_to "specification", "https://docs.docker.com/compose/compose-file/", target: "_blank"
+
+  = render 'shared/article_bottom'

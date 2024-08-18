@@ -1,0 +1,23 @@
+.container
+  .blog-section
+    %h4.text-center 📚 Blog 
+    %p.text-center
+      For now our blog is static pages writen usign haml and css.
+      %br
+      At the first series of articles we will try cover all main concepts and best practices for development and ways of deployment of Ruby on Rails applications.
+    
+    %ul.articles-list
+      %li
+        %h4
+          🐳
+          = link_to "Ruby on Rails development environment using Docker", page_path(path: 'blog/rails-development-using-docker')
+      %li
+        %h4
+          🛠️
+          = link_to "Containers vs foreman for compiling assets", page_path(path: 'blog/separate-containers-vs-foreman-for-compiling-assets-into-development')
+      %li
+        %h4
+          = link_to "Multple methods of deployment Ruby on Rails applications", "#", class: "wip"
+      %li
+        🕒
+        at next articles we will focus on deployment and CI/CD setup

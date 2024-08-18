@@ -6,7 +6,8 @@
     = link_to "foreman", "https://github.com/ddollar/foreman"
     gem to run webserver with assets compiling.
 
-  %br
+  = render 'shared/r3cha'
+
   %p
     Long story short: we using 
     = link_to "cssbundling-rails", "https://github.com/rails/cssbundling-rails", target: "_blank"
@@ -29,12 +30,12 @@
           Run multiple processes at app container using foreman gem.
           See 
           = link_to "PR", "https://github.com/frontandstart/initapp-rails/pull/1/files", target: "_blank"
-
-          
         %ul
           %li
             %p
-              Install foreman gem into docker development image
+              Add to
+              %i Dockerfile
+              foreman gem to have it into development image
               %code
                 :plain
                   RUN gem install bundler \
@@ -71,6 +72,8 @@
 
     %h4 Conclusion 
     %p
-      In first way you will use your CPU, RAM resources to running containers, with second solution you have one more small depenency at
+      There is two small chairs on first you will use your CPU, RAM resources to running containers and at second you have one more small depenency at
       %i< Dockefle
       \.
+    
+  = render 'shared/article_bottom'

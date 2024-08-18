@@ -1,26 +1,47 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    - if Rails.env.production?
+      %script{async: true, src: "https://www.googletagmanager.com/gtag/js?id=G-2N2DVWCVQY"}
+      %script
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-2N2DVWCVQY');
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     %title
-      Frontandstart 🚅 software development |
+      🚅 Frontandstart
       = yield :page_title
-    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %meta{content: "width=device-width,initial-scale=1", name: "viewport"}
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag "application", "data-turbo-track": "reload"
     = javascript_include_tag
   %body
-    .container
-      .d-flex.navigation
-        .logo
-          .icon
-            .white
-              F
-              %span.and.and-black &
-            .black
-              %span.and.and-white &
-              %span S
-          .text frontandstart
-  
-    = yield
+    .wrapper
+      .content
+        .container
+          .d-flex.navigation
+            = link_to root_path, class: "logo" do
+              .icon
+                .white
+                  F
+                  %span.and.and-black &
+                .black
+                  %span.and.and-white &
+                  %span S
+              .text frontandstart
+            %nav
+              = link_to "blog", page_path(path: 'blog')
+        = yield
+
+      %footer.container
+        %p
+          #{Time.now.year} frontandstart.co
+          %br
+          Our website is
+          = link_to "open source", "https://github.com/frontandstart/frontandstart.co", target: "_blank"  
+          and based on our 
+          = link_to "initapp-rails", "https://github.com/frontandstart/initapp-rails", target: "_blank"
+          starter pack application.

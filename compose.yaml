@@ -1,6 +1,6 @@
 services:
   app:
-    image: frontandstart-rails
+    image: frontandstart-app
     build:
       context: .
       target: development
@@ -13,7 +13,6 @@ services:
       - ${PORT:-3000}:${PORT:-3000}
     tmpfs:
       - /app/tmp/pids
-      - /app/tmp/cache
     depends_on:
       - postgres
       # - redis
@@ -22,7 +21,7 @@ services:
       - cache:/app/tmp/cache:d
       - bundle:/usr/local/bundle:d
       - node_modules:/app/node_modules:d
-      - data:/data:d
+      - ./data:/data:d
     healthcheck:
       test: ["CMD", "curl", "http://app:3000/health"]
       interval: 10s
