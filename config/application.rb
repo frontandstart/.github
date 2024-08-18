@@ -24,5 +24,7 @@ module Initapp
       logger.formatter = config.log_formatter
       config.logger    = ActiveSupport::TaggedLogging.new(logger)
     end
+
+    config.host_authorization = { exclude: ->(request) { request.path =~ /health/ } }
   end
 end
