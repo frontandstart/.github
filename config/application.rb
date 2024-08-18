@@ -24,6 +24,5 @@ module Initapp
       logger.formatter = config.log_formatter
       config.logger    = ActiveSupport::TaggedLogging.new(logger)
     end
-    config.hosts << 'app'
   end
 end
