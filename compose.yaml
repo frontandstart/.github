@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: development
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     env_file:
       - .docker.env
       - .env
