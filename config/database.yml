@@ -6,12 +6,12 @@ default: &default
 
 development:
   <<: *default
-  database: initapp_development
+  database: fs_development
 
 test:
   <<: *default
-  database: initapp_test
+  database: fs_test
 
 production:
   <<: *default
-  url: initapp_production
+  database: fs_production
