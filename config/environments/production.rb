@@ -85,6 +85,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # config.hosts << 'frontandstart.co'
-  config.hosts << 'frontandstart:3000, frontandstart.co'
+  config.hosts = ['frontandstart.co', 'frontandstart:3000']
 end
